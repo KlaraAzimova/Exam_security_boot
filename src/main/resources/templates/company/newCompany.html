@@ -17,17 +17,14 @@
             margin: 0 0 3rem;
             min-height: 3rem;
         }
-
         form-question__title {
-            color: #342357;
+            color: #ffffff;
             font-size: 1.5rem;
             padding: 1rem;
         }
-
         input-container {
-            border-bottom: solid 2px #333333;
+            border-bottom: solid 2px #ffffff;
         }
-
         .input-container input {
             border: none;
             box-sizing: border-box;
@@ -35,27 +32,26 @@
             padding: .75rem;
             width: 100%;
         }
-
         body {
-            background-image: url("https://images.unsplash.com/photo-1467226632440-65f0b4957563?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTl8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80");
+            background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
         }
     </style>
 </head>
 <body>
 <body>
-<div style="text-align:center; margin-top:200px; font-size: 30px;">
+<div style = "text-align:center; margin-top:200px; font-size: 30px;">
     <form
             action="#"
             th:method="POST"
-            th:action="@{/companies/save}"
+            th:action="@{/api/companies/save}"
             th:object="${newCompany}"
 
             style="text-align:center; margin-top:200px; font-size: 30px;">
 
-        <input type="hidden" name="id" th:field="*{companyId}">
-        <input type="text" name="companyName" th:field="*{companyName}" placeholder="Company Name">
+        <input type="hidden" name = "id" th:field="*{companyId}">
+        <input type="text"  name="companyName" th:field="*{companyName}" placeholder="Company Name">
         <br><br>
-        <input type="text" name="locatedCountry" th:field="*{locatedCountry}" placeholder="Located Country">
+        <input type="text"  name="locatedCountry" th:field="*{locatedCountry}" placeholder="Located Country">
         <br><br>
         <input type="submit" value="Add">
     </form>
@@ -64,8 +60,6 @@
 </body>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
-

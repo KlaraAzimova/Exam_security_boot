@@ -30,33 +30,33 @@ public class CourseController {
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/allCourses/{companyId}")
+    @GetMapping("/all/{companyId}")
     private String getAllCourses(@PathVariable("companyId") Long companyId, Model model, @ModelAttribute("inst") Instructor instructor) {
         model.addAttribute("allCourses", courseService.getCourseByCompanyId(companyId));
         model.addAttribute("companyId", companyId);
         Company company = companyService.getById(companyId);
         List<Instructor> instructors = company.getInstructors();
         model.addAttribute("instructors", instructorService.getInstructorByCompanyId(companyId));
-        return "/course/innerPageCourse.";
+        return "/course/mainCourse";
     }
 
-    @GetMapping("{companyId}/newCourse")
+    @GetMapping("{companyId}/new")
     private String newCourse(@PathVariable("companyId") Long id, Model model) {
         model.addAttribute("newCourse", new Course());
         model.addAttribute("companyId", id);
         return "course/newCourse";
     }
 
-    @PostMapping("/{companyId}/saveCourse")
+    @PostMapping("/{companyId}/save")
     private String saveCourse(@PathVariable("companyId") Long companyId, @ModelAttribute("newCourse") Course course) {
         courseService.addCourse(companyId, course);
         return "redirect:/courses/allCourses/ " + companyId;
     }
 
-    @GetMapping("/getCourse/{courseId}")
+    @GetMapping("/find/{courseId}")
     private String getCourseById(@PathVariable("courseId") Long courseId, Model model) {
         model.addAttribute("course", courseService.getById(courseId));
-        return "/course/innerPageCourse.";
+        return "/course/mainCourse";
     }
 
     @GetMapping("/update/{courseId}")
@@ -67,7 +67,7 @@ public class CourseController {
         return "course/updateCourse";
     }
 
-    @PostMapping("/{companyId}/{courseId}/saveUpdateCourse")
+    @PostMapping("/{companyId}/{courseId}/update")
     public String saveUpdateCourse(@PathVariable("companyId") Long companyId,
                                    @PathVariable("courseId") Long courseId,
                                    @ModelAttribute("course") Course course) {

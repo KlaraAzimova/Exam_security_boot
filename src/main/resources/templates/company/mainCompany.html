@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Companies</title>
     <style>table,
     td {
-        border: 1px solid #333;
+        border: 1px solid #ffffff;
         margin-top: 100px;
         margin-left: auto;
         margin-right: auto;
         font-size: 25px;
+    }
+
+    body {
+        background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
+        background-size: cover;
     }
 
     thead,
@@ -24,20 +28,31 @@
             border: 1px solid #1e1818;
             padding: 3px;
         }
+
+        .add:hover {
+            background: #ffffff;
+        }
+
+        .sing-out:hover {
+            background: #ffffff;
+        }
     </style>
 </head>
 <body>
-<div>
+
+<div style="text-align: center">
     <div sec:authorize="isAuthenticated()">
-        Welcome <b><span sec:authentication="name"> Username </span> </b>
-        <i><span sec:authentication="principal.authorities">Roles</span> </i>
+        <a><span style="font-size: 25px; margin: auto" th:text="Welcome"></span></a>
+        <br>
+        <span style="margin: auto; font-size: 20px" sec:authentication="name"></span>
+        <br>
+        <span style="margin: auto; font-size: 20px" sec:authentication="principal.authorities"></span>
+        <br>
+        <form th:action="@{/logout }" method="post">
+            <input type="submit" value="logout">
+        </form>
     </div>
-
-    <form th:action="@{/logout }" method="post">
-        <input type="submit" value="Logout">
-    </form>
 </div>
-
 <table class="table table-bordered">
     <thead class="table-dark">
     <tr>
@@ -49,7 +64,6 @@
         <th scope="col">Course</th>
         <th scope="col">Instructor</th>
         <th scope="col">Student</th>
-
     </tr>
     </thead>
     <tbody class="table-success">
@@ -58,34 +72,34 @@
         <td th:text="${company.companyName}"></td>
         <td th:text="${company.locatedCountry}"></td>
 
-        <td><a th:href="@{/companies/update/{id}/(id=${company.getCompanyId()})}">
+        <td><a th:href="@{/api/companies/update/{id}/(id=${company.getCompanyId()})}">
             <button style="height: 40px; width: 80px; background-color:#ffffff;">update</button>
         </a>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/companies/delete/{id}(id=${company.getCompanyId()})}">
-                <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#ffffff;"/>
+            <form th:method="GET" th:action="@{'/api/companies/delete/' + ${company.getCompanyId()}}">
+                <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:darkorange;"/>
             </form>
         </td>
-        <td><a th:href="@{/courses/allCourses/{companyId}(companyId=${company.getCompanyId()})}">
-            <input type="submit" value="course" style="height: 40px; width: 80px;background: #ffffff;"/>
+        <td><a th:href="@{/courses/all/{companyId}(companyId=${company.getCompanyId()})}">
+            <input type="submit" value="course" style="height: 40px; width: 80px;background: darkcyan;"/>
         </a>
         </td>
-        <td><a th:href="@{/instructors/allInstructors/{companyId}(companyId=${company.getCompanyId()})}">
-            <input type="submit" value="instructor" style="height: 40px;width: 110px;background: #ffffff">
+        <td><a th:href="@{/instructors/all/{companyId}(companyId=${company.getCompanyId()})}">
+            <input type="submit" value="instructor" style="height: 40px;width: 110px;background: lightcoral">
         </a></td>
-        <td><a th:href="@{/students/allStudents/{companyId}(companyId=${company.getCompanyId()})}">
-            <input type="submit" value="student" style="height: 40px;width: 80px;background: #ffffff">
+        <td><a th:href="@{/students/all/{companyId}(companyId=${company.getCompanyId()})}">
+            <input type="submit" value="student" style="height: 40px;width: 80px;background: mediumaquamarine">
         </a>
         </td>
-
-
     </tr>
     </tbody>
 </table>
 <br><br><br><br>
-<input style=" display: block; margin:auto; font-size:30px;" type="button" value="Add company"
-       onclick="window.location.href = '/companies/new'">
-</body>
+<input class="add" style=" display: block; margin:auto; font-size:30px;" type="button" value="Add company"
+       onclick="window.location.href = 'new'">
 
+<form th:action="@{/logout }" method="post" style="text-align: center">
+</form>
+</body>
 </html>

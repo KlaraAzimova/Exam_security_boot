@@ -26,7 +26,7 @@ public class StudentController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/allStudents/{companyId}")
+    @GetMapping("/all/{companyId}")
     private String getAllStudents(@PathVariable("companyId") Long companyId, Model model, @ModelAttribute("course") Course course) {
         model.addAttribute("allStudents", studentService.getAllStudents());
         model.addAttribute("companyId", companyId);
@@ -35,20 +35,20 @@ public class StudentController {
         return "student/mainStudent";
     }
 
-    @GetMapping("/{companyId}/newStudent")
+    @GetMapping("/{companyId}/new")
     private String newStudent(@PathVariable("companyId") Long id, Model model) {
         model.addAttribute("newStudent", new Student());
         model.addAttribute("companyId", id);
         return "student/newStudent";
     }
 
-    @PostMapping("{companyId}/saveStudent")
+    @PostMapping("{companyId}/save")
     private String saveStudent(@PathVariable("companyId") Long companyId, @ModelAttribute("newStudent") Student student) {
         studentService.addStudents(companyId, student);
         return "redirect:/students/allStudents/ " + companyId;
     }
 
-    @GetMapping("/getStudent/{id}")
+    @GetMapping("/find/{id}")
     private String getStudentById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("student", studentService.getById(id));
         return "student/mainStudent";
@@ -62,18 +62,18 @@ public class StudentController {
         return "student/updateStudent";
     }
 
-    @PostMapping("/{companyId}/{studentId}/saveUpdateStudent")
+    @PostMapping("/{companyId}/{studentId}/update")
     public String saveUpdateStudent(@PathVariable("companyId") Long id,
                                     @PathVariable("studentId") Long studentId,
                                     @ModelAttribute("student") Student student) {
         studentService.updateStudent(studentId, student);
-        return "redirect:/students/allStudents/ " + id;
+        return "redirect:/students/all/ " + id;
     }
 
     @RequestMapping("/{studentId}/{companyId}/delete")
     private String deleteStudent(@PathVariable("studentId") Long id, @PathVariable("companyId") Long companyId) {
         studentService.deleteStudent(id);
-        return "redirect:/students/allStudents/ " + companyId;
+        return "redirect:/students/all/ " + companyId;
     }
 
     @PostMapping("/{companyId}/{studentId}/assign")
@@ -81,7 +81,7 @@ public class StudentController {
                           @PathVariable("companyId") Long companyId,
                           @ModelAttribute("course") Course course) {
         studentService.assignStudentToCourse(id, course.getCourseId());
-        return "redirect:/students/allStudents/ " + companyId;
+        return "redirect:/students/all/ " + companyId;
     }
 
 }

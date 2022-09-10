@@ -18,33 +18,33 @@ public class LessonController {
         this.lessonService = lessonService;
     }
 
-    @GetMapping("/allLessons/{courseId}")
+    @GetMapping("/all/{courseId}")
     private String getAllLessons(@PathVariable("courseId") Long courseId, Model model) {
         model.addAttribute("allLessons", lessonService.getAllLesson());
         model.addAttribute("courseId", courseId);
         return "lesson/mainLesson";
     }
 
-    @GetMapping("{courseId}/newLesson")
+    @GetMapping("{courseId}/new")
     private String newLesson(@PathVariable("courseId") Long id, Model model) {
         model.addAttribute("newLesson", new Lesson());
         model.addAttribute("courseId", id);
         return "lesson/newLesson";
     }
 
-    @PostMapping("{courseId}/saveLesson")
+    @PostMapping("{courseId}/save")
     private String saveLesson(@PathVariable("courseId") Long id, @ModelAttribute("newLesson") Lesson lesson) {
         lessonService.addLesson(id, lesson);
-        return "redirect:/lessons/allLessons/ " + id;
+        return "redirect:/lessons/all/ " + id;
     }
 
-    @GetMapping("/getLesson/{lessonId}")
+    @GetMapping("/find/{lessonId}")
     private String getLessonById(@PathVariable("lessonId") Long id, Model model) {
         model.addAttribute("lesson", lessonService.getById(id));
         return "lesson/mainLesson";
     }
 
-    @GetMapping("/updateLesson/{lessonId}")
+    @GetMapping("/update/{lessonId}")
     private String updateLesson(@PathVariable("lessonId") Long lessonId, Model model) {
         Lesson lesson = lessonService.getById(lessonId);
         model.addAttribute("lesson", lesson);
@@ -52,18 +52,18 @@ public class LessonController {
         return "lesson/updateLesson";
     }
 
-    @PostMapping("/{courseId}/{lessonId}/saveUpdateLesson")
+    @PostMapping("/{courseId}/{lessonId}/update")
     private String saveUpdateLesson(@PathVariable("courseId") Long courseId,
                                     @PathVariable("lessonId") Long lessonId,
                                     @ModelAttribute("lesson") Lesson lesson) {
         lessonService.updateLesson(lessonId, lesson);
-        return "redirect:/lessons/allLessons/ " + courseId;
+        return "redirect:/lessons/all/ " + courseId;
     }
 
-    @RequestMapping("/{courseId}/{lessonId}/deleteLesson")
+    @RequestMapping("/{courseId}/{lessonId}/delete")
     private String deleteLesson(@PathVariable("courseId") Long id, @PathVariable("lessonId") Long lessonId) {
         lessonService.deleteLesson(lessonId);
-        return "redirect:/lessons/allLessons/ " + id;
+        return "redirect:/lessons/all/ " + id;
     }
 
 }

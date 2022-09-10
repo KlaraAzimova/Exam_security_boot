@@ -1,8 +1,7 @@
 package peaksoft.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,13 +46,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/companies/allCompanies").hasAnyAuthority("ADMIN", "INSTRUCTOR", "STUDENT")
-                .antMatchers("/new").hasAnyAuthority("ADMIN")
-                .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/delete/**").hasAnyAuthority("ADMIN")
-                .anyRequest().authenticated().and()
-                .formLogin().permitAll()
-                .defaultSuccessUrl("/companies/allCompanies")
+                .antMatchers("/api/companies").hasAnyAuthority(
+                        "ADMIN", "INSTRUCTOR", "STUDENT")
+                .antMatchers("/api/**").hasAuthority("ADMIN")
+                .antMatchers("/save/**").hasAnyAuthority("ADMIN", "INSTRUCTOR")
+                .antMatchers("/delete/**").hasAuthority("ADMIN")
+                .antMatchers("/students/delete/**").hasAuthority("INSTRUCTOR")
+                .antMatchers("/saveAssign/**").hasAnyAuthority("ADMIN", "INSTRUCTOR")
+                .antMatchers("/students/all/**").hasAuthority("INSTRUCTOR")
+                .antMatchers("/students/**/delete").hasAuthority("INSTRUCTOR")
+                .antMatchers("/lessons/**/delete").hasAuthority("INSTRUCTOR")
+                .antMatchers("/lessons/update/**").hasAuthority("INSTRUCTOR")
+                .antMatchers("/lessons/**/new").hasAuthority("INSTRUCTOR")
+                .antMatchers("/tasks/all/**").hasAnyAuthority("INSTRUCTOR", "STUDENT")
+                .antMatchers("/task/new").hasAuthority("INSTRUCTOR")
+                .antMatchers("/tasks/update/**").hasAnyAuthority("STUDENT", "INSTRUCTOR")
+                .antMatchers("/tasks/**/delete").hasAnyAuthority("INSTRUCTOR")
+                .antMatchers("/videos/all/**").hasAnyAuthority("INSTRUCTOR", "STUDENT", "ADMIN")
+                .antMatchers("/videos/**/new/**").hasAuthority("INSTRUCTOR")
+                .antMatchers("/videos/update/**").hasAuthority("INSTRUCTOR")
+                .antMatchers("/videos/**/delete").hasAuthority("INSTRUCTOR")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
                 .and()
                 .logout().permitAll();
     }

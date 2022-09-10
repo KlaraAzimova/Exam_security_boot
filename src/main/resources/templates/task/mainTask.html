@@ -25,6 +25,11 @@ tfoot {
     table, th, td {
         border: 1px solid #1e1818;
         padding: 3px;
+        background: azure;
+    }
+    body {
+        background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
+        background-size: cover;
     }
 </style>
 <body>
@@ -48,31 +53,22 @@ tfoot {
         <th th:text="${task.taskText}"></th>
         <th th:text="${task.getLessons().getLessonName()}"></th>
         <td>
-            <a th:href="@{/tasks/updateTask/{taskId}(taskId=${task.getTaskId()})}">
+            <a th:href="@{/tasks/update/{taskId}(taskId=${task.getTaskId()})}">
                 <button style="height: 40px; width: 80px; background-color:blue;">update</button>
             </a>
         </td>
         </td>
-        <td>
-            <form th:method="DELETE"
-                  th:action="@{/tasks/{lessonId}/{taskId}/deleteTask(lessonId=${lessonId},taskId=${task.getTaskId()})}">
-                <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/>
-            </form>
-        </td>
+        <td><form th:method="DELETE" th:action="@{/tasks/{lessonId}/{taskId}/delete(lessonId=${lessonId},taskId=${task.getTaskId()})}">
+            <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/></form></td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/tasks/{lessonId}/newTask(lessonId=${lessonId})}">
+<a th:href="@{/tasks/{lessonId}/new(lessonId=${lessonId})}">
     <button type="button" class="btn btn-primary btn-sm">Add Task</button>
 </a>
-<a th:href="@{/companies/allCompanies}">
+<a th:href="@{/companies/all}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
-<!--<input style=" display: block; margin:auto; font-size:30px;" type="button" value="Add Course"-->
-<!--       onclick="window.location.href = 'newCourse'">-->
-
 
 </body>
 </html>
-
-

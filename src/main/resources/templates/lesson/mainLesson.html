@@ -18,13 +18,18 @@ td {
 thead,
 tfoot {
     background-color: #e8e5e5;
-    color: #ffffff;
+    color: #344712;
+}
+body {
+    background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
+    background-size: cover;
 }
 </style>
 <style>
     table, th, td {
         border: 1px solid #1e1818;
         padding: 3px;
+        background: azure;
     }
 </style>
 <body>
@@ -50,29 +55,23 @@ tfoot {
                 <button style="height: 40px; width: 80px; background-color:blue;">update</button>
             </a>
         </td>
-        <td>
-            <form th:method="DELETE"
-                  th:action="@{/lessons/{courseId}/{lessonId}/deleteLesson(courseId=${courseId},lessonId=${lesson.getLessonId()})}">
-                <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/>
-            </form>
-        </td>
+        <td><form th:method="DELETE" th:action="@{/lessons/{courseId}/{lessonId}/delete(courseId=${courseId},lessonId=${lesson.getLessonId()})}">
+            <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/></form></td>
 
-        <td><a th:href="@{/tasks/allTasks/{lessonId}(lessonId=${lesson.getLessonId()})}">
+        <td> <a th:href="@{/tasks/all/{lessonId}(lessonId=${lesson.getLessonId()})}">
             <input type="submit" value="task" style="height: 40px; width: 80px;background: cornflowerblue"></a></td>
 
-        <td><a th:href="@{/videos/allVideos/{lessonId}(lessonId=${lesson.getLessonId()})}">
+        <td> <a th:href="@{/videos/all/{lessonId}(lessonId=${lesson.getLessonId()})}">
             <input type="submit" value="video" style="height: 40px; width: 80px;background: azure"></a></td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/lessons/{courseId}/newLesson(courseId=${courseId})}">
+<a th:href="@{/lessons/{courseId}/new(courseId=${courseId})}">
     <button type="button" class="btn btn-primary btn-sm">Add Lesson</button>
 </a>
-<a th:href="@{/companies/allCompanies}">
+<a th:href="@{/companies/all}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
 
 </body>
 </html>
-
-

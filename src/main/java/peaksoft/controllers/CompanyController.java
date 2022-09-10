@@ -9,7 +9,7 @@ import peaksoft.service.CompanyService;
 
 
 @Controller
-@RequestMapping("/companies")
+@RequestMapping("/api/companies")
 public class CompanyController {
     private final CompanyService companyService;
 
@@ -18,6 +18,11 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
+    @GetMapping
+    private String getAllCompanies(Model model) {
+        model.addAttribute("allCompanies", companyService.getAllCompanies());
+        return "company/mainCompany";
+    }
 
     @GetMapping("/new")
     private String newCompany(Model model) {
@@ -28,18 +33,12 @@ public class CompanyController {
     @PostMapping("/save")
     private String saveCompany(@ModelAttribute("newCompany") Company company) {
         companyService.save(company);
-        return "redirect:/companies/allCompanies";
+        return "redirect:/api/companies";
     }
 
-    @GetMapping("/allCompanies")
-    private String getAllCompanies(Model model) {
-        model.addAttribute("allCompanies", companyService.getAllCompanies());
-        return "company/mainCompany";
-    }
-
-    @GetMapping("/getCompany/{id}")
-    private String getCompanyById(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("company", companyService.getById(id));
+    @GetMapping("/find/{companyId}")
+    private String getCompanyById(@PathVariable Long companyId, Model model) {
+        model.addAttribute("company", companyService.getById(companyId));
         return "company/mainCompany";
 
     }
@@ -51,17 +50,17 @@ public class CompanyController {
     }
 
 
-    @PatchMapping("{id}/updateCompany")
+    @PostMapping("/update/{id}")
     private String saveUpdateCompany(@PathVariable("id") Long id,
                                      @ModelAttribute("company") Company company) {
         companyService.updateCompany(id, company);
-        return "redirect:/companies/allCompanies";
+        return "redirect:/api/companies";
     }
 
 
-    @RequestMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteCompany(@PathVariable("id") Long id) {
         companyService.deleteCompanyById(id);
-        return "redirect:/companies/allCompanies";
+        return "redirect:/api/companies";
     }
 }

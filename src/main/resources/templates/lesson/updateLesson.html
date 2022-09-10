@@ -13,22 +13,19 @@
             padding: .75rem;
             width: 100%;
         }
-
         body {
-            background-image: url("https://images.ctfassets.net/hrltx12pl8hq/3TDofoEgZPCt3qpncet5bm/0a2f0a3858b94f64dc5d5a8bfd07056d/compressed_shutterstock_626223680.jpg?fit=fill&w=800&h=300");
+            background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
         }
     </style>
 </head>
 
 <body>
-<form th:action="@{/lessons/{courseId}/{lessonId}/saveUpdateLesson(courseId=${courseId},lessonId=${lessonId})}"
+<form th:action="@{/lessons/{courseId}/{lessonId}/update(courseId=${courseId},lessonId=${lessonId})}"
       th:object="${lesson}"
       th:method="post"
       style="text-align:center; margin-top:60px; font-size: 15px;">
     <div><input name="Lesson Name" th:field="*{lessonName}"></div>
     <br>
-    <div><input type="submit" value="update"></div>
+    <div><input  type="submit" value="update"></div>
 </form>
 </body>
-
-

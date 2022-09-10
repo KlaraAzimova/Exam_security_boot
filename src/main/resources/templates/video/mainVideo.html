@@ -25,11 +25,12 @@ tfoot {
     table, th, td {
         border: 1px solid #1e1818;
         padding: 3px;
+        background: azure ;
     }
-
-    /*body {*/
-    /*    background-image: url("https://cdn.pixabay.com/photo/2015/12/29/14/51/mountains-1112911_960_720.jpg");*/
-    /*}*/
+    body {
+        background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg=1");
+        background-size: cover;
+    }
 </style>
 <body>
 <table>
@@ -50,26 +51,19 @@ tfoot {
         <th th:text="${video.link}"></th>
         <th th:text="${video.getLesson().getLessonName()}"></th>
         <td>
-            <a th:href="@{/videos/updateVideo/{videoId}(videoId=${video.getVideoId()})}">
+            <a th:href="@{/videos/update/{videoId}(videoId=${video.getVideoId()})}">
                 <button style="height: 40px; width: 80px; background-color:blue;">update</button>
             </a>
         </td>
-        <td>
-            <form th:method="DELETE"
-                  th:action="@{/videos/{lessonId}/{videoId}/deleteVideo(lessonId=${lessonId},videoId=${video.getVideoId()})}">
-                <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/>
-            </form>
-        </td>
+        <td><form th:method="DELETE" th:action="@{/videos/{lessonId}/{videoId}/delete(lessonId=${lessonId},videoId=${video.getVideoId()})}">
+            <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e;"/></form></td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/videos/{lessonId}/newVideo(lessonId=${lessonId})}">
+<a th:href="@{/videos/{lessonId}/new(lessonId=${lessonId})}">
     <button type="button" class="btn btn-primary btn-sm">Add Video</button>
 </a>
-<a th:href="@{/companies/allCompanies}">
+<a th:href="@{/companies/all}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
 </body>
-</html>
-
-

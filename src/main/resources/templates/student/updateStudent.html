@@ -13,15 +13,14 @@
             padding: .75rem;
             width: 100%;
         }
-
         body {
-            background-image: url("https://images.pexels.com/photos/7925847/pexels-photo-7925847.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+            background-image: url("https://devby.io/storage/images/23/45/79/07/derived/d1e1887d904dc95fd12a850a5554c93c.jpg");
         }
     </style>
 </head>
 
 <body>
-<form th:action="@{/students/{companyId}/{studentId}/saveUpdateStudent(companyId=${companyId},studentId=${studentId})}"
+<form th:action="@{/students/{companyId}/{studentId}/update(companyId=${companyId},studentId=${studentId})}"
       th:object="${student}"
       th:method="post"
       style="text-align:center; margin-top:60px; font-size: 15px;">
@@ -35,8 +34,6 @@
     <br>
     <div><input name="Study Format" th:field="*{studyFormat}"></div>
     <br>
-    <div><input type="submit" value="update"></div>
+    <div><input  type="submit" value="update"></div>
 </form>
 </body>
-
-

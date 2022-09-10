@@ -21,7 +21,7 @@ public class InstructorController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/allInstructors/{companyId}")
+    @GetMapping("/all/{companyId}")
     private String getAllInstructors(@PathVariable("companyId") Long id, Model model) {
         model.addAttribute("allInstructors", instructorService.getInstructorByCompanyId(id));
         model.addAttribute("companyId", id);
@@ -30,27 +30,27 @@ public class InstructorController {
     }
 
 
-    @GetMapping("{companyId}/newInstructor")
+    @GetMapping("{companyId}/new")
     private String newInstructor(@PathVariable("companyId") Long id, Model model) {
         model.addAttribute("newInstructor", new Instructor());
         model.addAttribute("companyId", id);
         return "instructor/newInstructor";
     }
 
-    @PostMapping("{companyId}/saveInstructor")
+    @PostMapping("{companyId}/save")
     private String saveInstructor(@PathVariable("companyId") Long id,
                                   @ModelAttribute("newInstructor") Instructor instructor) {
         instructorService.addInstructor(id, instructor);
-        return "redirect:/instructors/allInstructors/ " + id;
+        return "redirect:/instructors/all/ " + id;
     }
 
-    @GetMapping("/getInstructor/{id}")
+    @GetMapping("/find/{id}")
     private String getInstructorById(@PathVariable("id") Long id, Model model) {
         model.addAttribute("id", instructorService.getById(id));
         return "instructor/mainInstructor";
     }
 
-    @GetMapping("/updateInstructor/{instructorId}")
+    @GetMapping("/update/{instructorId}")
     private String updateInstructor(@PathVariable("instructorId") Long instructorId, Model model) {
         Instructor instructor = instructorService.getById(instructorId);
         model.addAttribute("instructor", instructor);
@@ -58,18 +58,18 @@ public class InstructorController {
         return "instructor/updateInstructor";
     }
 
-    @PostMapping("/{companyId}/{instructorId}/saveUpdate")
+    @PostMapping("/{companyId}/{instructorId}/update")
     private String saveUpdate(@PathVariable("companyId") Long companyId,
                               @PathVariable("instructorId") Long id,
                               @ModelAttribute("instructor") Instructor instructor) {
         instructorService.updateInstructor(id, instructor);
-        return "redirect:/instructors/allInstructors/" + companyId;
+        return "redirect:/instructors/all/" + companyId;
     }
 
     @RequestMapping("/{id}/{instructorId}/delete")
     private String deleteInstructor(@PathVariable("id") Long id, @PathVariable("instructorId") Long instructorId) {
         instructorService.deleteInstructor(instructorId);
-        return "redirect:/instructors/allInstructors/ " + id;
+        return "redirect:/instructors/all/ " + id;
     }
 
 }

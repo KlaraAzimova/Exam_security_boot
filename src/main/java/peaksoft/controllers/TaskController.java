@@ -18,33 +18,33 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/allTasks/{lessonId}")
+    @GetMapping("/all/{lessonId}")
     private String getAllTasks(@PathVariable("lessonId") Long lessonId, Model model) {
         model.addAttribute("allTasks", taskService.getAllTaskLessonId(lessonId));
         model.addAttribute("lessonId", lessonId);
         return "task/mainTask";
     }
 
-    @GetMapping("{lessonId}/newTask")
+    @GetMapping("{lessonId}/new")
     private String newTask(@PathVariable("lessonId") Long id, Model model) {
         model.addAttribute("newTask", new Task());
         model.addAttribute("lessonId", id);
         return "task/newTask";
     }
 
-    @PostMapping("{lessonId}/saveTask")
+    @PostMapping("{lessonId}/save")
     private String saveTask(@PathVariable("lessonId") Long id, @ModelAttribute("newTask") Task task) {
         taskService.addTask(id, task);
-        return "redirect:/tasks/allTasks/ " + id;
+        return "redirect:/tasks/all/ " + id;
     }
 
-    @GetMapping("/getTask/{taskId}")
+    @GetMapping("/find/{taskId}")
     private String getLessonById(@PathVariable("taskId") Long id, Model model) {
         model.addAttribute("task", taskService.getById(id));
         return "task/mainTask";
     }
 
-    @GetMapping("/updateTask/{taskId}")
+    @GetMapping("/update/{taskId}")
     private String updateTask(@PathVariable("taskId") Long taskId, Model model) {
         Task task = taskService.getById(taskId);
         model.addAttribute("task", task);
@@ -52,18 +52,18 @@ public class TaskController {
         return "task/updateTask";
     }
 
-    @PostMapping("/{lessonId}/{taskId}/saveUpdateTask")
+    @PostMapping("/{lessonId}/{taskId}/update")
     private String saveUpdateTask(@PathVariable("lessonId") Long lessonId,
                                   @PathVariable("taskId") Long taskId,
                                   @ModelAttribute("task") Task task) {
         taskService.updateTask(taskId, task);
-        return "redirect:/tasks/allTasks/ " + lessonId;
+        return "redirect:/tasks/all/ " + lessonId;
 
     }
 
-    @RequestMapping("/{lessonId}/{taskId}/deleteTask")
+    @RequestMapping("/{lessonId}/{taskId}/delete")
     private String deleteTask(@PathVariable("lessonId") Long id, @PathVariable("taskId") Long taskId) {
         taskService.deleteTask(taskId);
-        return "redirect:/tasks/allTasks/ " + id;
+        return "redirect:/tasks/all/ " + id;
     }
 }

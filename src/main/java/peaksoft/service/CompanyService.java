@@ -6,6 +6,7 @@ import peaksoft.entity.Company;
 import peaksoft.repository.CompanyRepository;
 
 import java.util.List;
+
 @Service
 public class CompanyService {
     private final CompanyRepository repository;
@@ -34,7 +35,7 @@ public class CompanyService {
 
 
     public Company getById(Long id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(()-> new RuntimeException("Company with = " + id + " not found"));
     }
 
 
