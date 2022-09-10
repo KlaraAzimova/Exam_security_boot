@@ -21,15 +21,8 @@ public class CompanyService {
         return repository.findAll();
     }
 
-
-    public void updateCompany(Long id, Company company) {
-        Company company1 = repository.findById(id).get();
-        company1.setCompanyName(company.getCompanyName());
-        company1.setLocatedCountry(company.getLocatedCountry());
-        repository.save(company1);
-    }
-
     public void save(Company company) {
+        System.out.println(company.toString());
         repository.save(company);
     }
 

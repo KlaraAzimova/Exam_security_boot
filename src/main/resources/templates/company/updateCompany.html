@@ -18,10 +18,11 @@
     </style>
 </head>
 <body>
-<form th:action="@{'/api/companies/update/' + ${company.getCompanyId()}}"
+<form th:action="@{/api/companies/update/}"
       th:object="${company}"
       th:method="POST"
       style="text-align:center; margin-top:90px; font-size: 15px;">
+    <input type="hidden" name = "id" th:field="*{companyId}">
     <div><input th:field="*{companyName}"></div>
     <br>
     <div><input th:field="*{locatedCountry}"></div>

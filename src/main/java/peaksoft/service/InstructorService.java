@@ -39,18 +39,8 @@ public class InstructorService {
         return instructorRepository.findInstructorsByCompany_CompanyId(id);
     }
 
-    public List<Instructor> getInstructorByCourseId(Long id) {
-        return instructorRepository.findInstructorsByCourseId(id);
-    }
-
-    public void updateInstructor(Long id, Instructor instructor) {
-        Instructor instructor1 = instructorRepository.findById(id).get();
-        instructor1.setFirstName(instructor.getFirstName());
-        instructor1.setLastName(instructor.getLastName());
-        instructor1.setEmail(instructor.getEmail());
-        instructor1.setPhoneNumber(instructor.getPhoneNumber());
-        instructor1.setSpecialization(instructor.getSpecialization());
-        instructorRepository.save(instructor1);
+    public void updateInstructor(Long companyId, Instructor instructor) {
+        addInstructor(companyId, instructor);
     }
 
     public void deleteInstructor(Long id) {
@@ -64,5 +54,9 @@ public class InstructorService {
         instructor.addCourse(course);
         course.addInstructors(instructor);
         instructorRepository.save(instructor);
+    }
+
+    public List<Course> findCoursesByInstructorId(Long instructorId) {
+       return courseRepository.findCoursesByInstructorId(instructorId);
     }
 }

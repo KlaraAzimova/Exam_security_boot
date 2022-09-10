@@ -35,7 +35,7 @@
 </head>
 <body>
 <div>
-    <form th:action="@{instructors/save}"
+    <form th:action="@{/api/instructors/save/{id}(id=${companyId})}"
           th:object="${newInstructor}"
           method="post"
           style="text-align:center; margin-top:90px; font-size: 15px;">

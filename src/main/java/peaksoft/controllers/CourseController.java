@@ -14,49 +14,38 @@ import peaksoft.service.InstructorService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/courses")
+@RequestMapping("/api/courses")
 public class CourseController {
 
     private final CourseService courseService;
-    private final CompanyService companyService;
     private final InstructorService instructorService;
 
 
     @Autowired
-    public CourseController(CourseService courseService, CompanyService companyService,
-                            InstructorService instructorService) {
+    public CourseController(CourseService courseService, InstructorService instructorService) {
         this.courseService = courseService;
-        this.companyService = companyService;
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/all/{companyId}")
+    @GetMapping("/{companyId}")
     private String getAllCourses(@PathVariable("companyId") Long companyId, Model model, @ModelAttribute("inst") Instructor instructor) {
         model.addAttribute("allCourses", courseService.getCourseByCompanyId(companyId));
         model.addAttribute("companyId", companyId);
-        Company company = companyService.getById(companyId);
-        List<Instructor> instructors = company.getInstructors();
-        model.addAttribute("instructors", instructorService.getInstructorByCompanyId(companyId));
         return "/course/mainCourse";
     }
 
-    @GetMapping("{companyId}/new")
-    private String newCourse(@PathVariable("companyId") Long id, Model model) {
+    @GetMapping("/new/{companyId}")
+    private String newCourse(@PathVariable Long companyId, Model model) {
         model.addAttribute("newCourse", new Course());
-        model.addAttribute("companyId", id);
+        model.addAttribute("companyId", companyId);
         return "course/newCourse";
     }
 
-    @PostMapping("/{companyId}/save")
-    private String saveCourse(@PathVariable("companyId") Long companyId, @ModelAttribute("newCourse") Course course) {
+    @PostMapping("/save/{companyId}")
+    private String saveCourse(@PathVariable Long companyId,
+                              @ModelAttribute("newCourse") Course course) {
         courseService.addCourse(companyId, course);
-        return "redirect:/courses/allCourses/ " + companyId;
-    }
-
-    @GetMapping("/find/{courseId}")
-    private String getCourseById(@PathVariable("courseId") Long courseId, Model model) {
-        model.addAttribute("course", courseService.getById(courseId));
-        return "/course/mainCourse";
+        return "redirect:/api/courses/" + companyId;
     }
 
     @GetMapping("/update/{courseId}")
@@ -67,20 +56,19 @@ public class CourseController {
         return "course/updateCourse";
     }
 
-    @PostMapping("/{companyId}/{courseId}/update")
+    @PostMapping("/update/{companyId}")
     public String saveUpdateCourse(@PathVariable("companyId") Long companyId,
-                                   @PathVariable("courseId") Long courseId,
                                    @ModelAttribute("course") Course course) {
-        courseService.updateCourse(courseId, course);
-        return "redirect:/courses/allCourses/ " + companyId;
+        courseService.updateCourse(companyId, course);
+        return "redirect:/api/courses/" + companyId;
     }
 
 
-    @RequestMapping("/{id}/{courseId}/delete")
-    private String deleteCourse(@PathVariable("id") Long id,
-                                @PathVariable("courseId") Long courseId) {
+    @RequestMapping("/{companyId}/delete/{courseId}")
+    private String deleteCourse(@PathVariable Long companyId,
+                                @PathVariable Long courseId) {
         courseService.deleteCourse(courseId);
-        return "redirect:/courses/allCourses/ " + courseId;
+        return "redirect:/api/courses/" + companyId;
     }
 
     @PostMapping("/{companyId}/{courseId}/saveAssign")
@@ -89,7 +77,7 @@ public class CourseController {
                               @PathVariable("companyId") Long compId) {
         System.out.println(instructor);
         instructorService.assignInstructorToCourse(instructor.getInstructorId(), courseId);
-        return "redirect:/courses/allCourses/" + compId;
+        return "redirect:/api/courses/" + compId;
     }
 }
 

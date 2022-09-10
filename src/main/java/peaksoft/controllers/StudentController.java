@@ -12,7 +12,7 @@ import peaksoft.service.CourseService;
 import peaksoft.service.StudentService;
 
 @Controller
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -26,26 +26,27 @@ public class StudentController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/all/{companyId}")
-    private String getAllStudents(@PathVariable("companyId") Long companyId, Model model, @ModelAttribute("course") Course course) {
-        model.addAttribute("allStudents", studentService.getAllStudents());
+    @GetMapping("/{companyId}")
+    private String getAllStudents(@PathVariable Long companyId, Model model,
+                                  @ModelAttribute("course") Course course) {
+        model.addAttribute("allStudents", studentService.getStudentByCompanyId(companyId));
         model.addAttribute("companyId", companyId);
-        Company company = companyService.getById(companyId);
         model.addAttribute("courses", courseService.getCourseByCompanyId(companyId));
         return "student/mainStudent";
     }
 
-    @GetMapping("/{companyId}/new")
-    private String newStudent(@PathVariable("companyId") Long id, Model model) {
+    @GetMapping("/new/{companyId}")
+    private String newStudent(@PathVariable Long companyId, Model model) {
         model.addAttribute("newStudent", new Student());
-        model.addAttribute("companyId", id);
+        model.addAttribute("companyId", companyId);
         return "student/newStudent";
     }
 
-    @PostMapping("{companyId}/save")
-    private String saveStudent(@PathVariable("companyId") Long companyId, @ModelAttribute("newStudent") Student student) {
+    @PostMapping("/save/{companyId}")
+    private String saveStudent(@PathVariable Long companyId,
+                               @ModelAttribute("newStudent") Student student) {
         studentService.addStudents(companyId, student);
-        return "redirect:/students/allStudents/ " + companyId;
+        return "redirect:/api/students/ " + companyId;
     }
 
     @GetMapping("/find/{id}")
@@ -55,25 +56,25 @@ public class StudentController {
     }
 
     @GetMapping("/update/{studentId}")
-    private String updateStudent(@PathVariable("studentId") Long id, Model model) {
-        Student student = studentService.getById(id);
+    private String updateStudent(@PathVariable Long studentId, Model model) {
+        Student student = studentService.getById(studentId);
         model.addAttribute("student", student);
         model.addAttribute("companyId", student.getCompany().getCompanyId());
         return "student/updateStudent";
     }
 
-    @PostMapping("/{companyId}/{studentId}/update")
-    public String saveUpdateStudent(@PathVariable("companyId") Long id,
-                                    @PathVariable("studentId") Long studentId,
+    @PostMapping("/update/{companyId}")
+    public String saveUpdateStudent(@PathVariable Long companyId,
                                     @ModelAttribute("student") Student student) {
-        studentService.updateStudent(studentId, student);
-        return "redirect:/students/all/ " + id;
+        studentService.updateStudent(companyId, student);
+        return "redirect:/api/students/" + companyId;
     }
 
-    @RequestMapping("/{studentId}/{companyId}/delete")
-    private String deleteStudent(@PathVariable("studentId") Long id, @PathVariable("companyId") Long companyId) {
-        studentService.deleteStudent(id);
-        return "redirect:/students/all/ " + companyId;
+    @RequestMapping("/{companyId}/delete/{studentId}")
+    private String deleteStudent(@PathVariable Long studentId,
+                                 @PathVariable Long companyId) {
+        studentService.deleteStudent(studentId);
+        return "redirect:/api/students/" + companyId;
     }
 
     @PostMapping("/{companyId}/{studentId}/assign")
@@ -81,7 +82,6 @@ public class StudentController {
                           @PathVariable("companyId") Long companyId,
                           @ModelAttribute("course") Course course) {
         studentService.assignStudentToCourse(id, course.getCourseId());
-        return "redirect:/students/all/ " + companyId;
+        return "redirect:/api/students/" + companyId;
     }
-
 }

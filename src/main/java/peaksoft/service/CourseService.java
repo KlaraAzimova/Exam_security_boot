@@ -42,14 +42,8 @@ public class CourseService {
     }
 
 
-    public void updateCourse(Long id, Course course) {
-        Course course1 = courseRepository.findById(id).get();
-        course1.setCourse_name(course.getCourse_name());
-        course1.setDescription(course.getDescription());
-        course1.setDuration(course.getDuration());
-        course1.setDateOfStart(course.getDateOfStart());
-        course1.setImage(course.getImage());
-        courseRepository.save(course1);
+    public void updateCourse(Long companyId, Course course) {
+        addCourse(companyId, course);
     }
 
 

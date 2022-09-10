@@ -20,10 +20,11 @@
 
 </head>
 <body>
-<form th:action="@{/courses/{companyId}/{courseId}/update(companyId=${compId},courseId=${courseId})}"
+<form th:action="@{/api/courses/update/{companyId}(companyId=${compId})}"
       th:object="${course}"
       th:method="post"
       style="text-align:center; margin-top:60px; font-size: 15px;">
+    <input type="hidden" name = "id" th:field="*{courseId}">
     <div><input th:field="*{course_name}"></div>
     <br>
     <div><input th:field="*{dateOfStart}"></div>

@@ -11,6 +11,7 @@ import peaksoft.service.CompanyService;
 @Controller
 @RequestMapping("/api/companies")
 public class CompanyController {
+
     private final CompanyService companyService;
 
     @Autowired
@@ -36,27 +37,17 @@ public class CompanyController {
         return "redirect:/api/companies";
     }
 
-    @GetMapping("/find/{companyId}")
-    private String getCompanyById(@PathVariable Long companyId, Model model) {
-        model.addAttribute("company", companyService.getById(companyId));
-        return "company/mainCompany";
-
-    }
-
     @GetMapping("/update/{id}")
     private String updateCompany(@PathVariable("id") Long id, Model model) {
         model.addAttribute("company", companyService.getById(id));
         return "company/updateCompany";
     }
 
-
-    @PostMapping("/update/{id}")
-    private String saveUpdateCompany(@PathVariable("id") Long id,
-                                     @ModelAttribute("company") Company company) {
-        companyService.updateCompany(id, company);
+    @PostMapping("/update")
+    private String saveUpdateCompany(@ModelAttribute("company") Company company) {
+        companyService.save(company);
         return "redirect:/api/companies";
     }
-
 
     @GetMapping("/delete/{id}")
     public String deleteCompany(@PathVariable("id") Long id) {

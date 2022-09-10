@@ -17,10 +17,11 @@
     </style>
 </head>
 <body>
-<form th:action="@{/instructors/{companyId}/{instructorId}/save(companyId=${companyId},instructorId=${instructorId})}"
+<form th:action="@{/api/instructors/update/{companyId}(companyId=${companyId})}"
       th:object="${instructor}"
-      th:method="post"
+      th:method="POST"
       style="text-align:center; margin-top:50px; font-size: 15px;">
+    <input type="hidden" name = "id" th:field="*{instructorId}">
     <div><input th:field="*{firstName}"></div>
     <br>
     <div><input th:field="*{lastName}"></div>

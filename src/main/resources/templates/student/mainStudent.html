@@ -72,17 +72,26 @@
         <td th:text="${student.email}"></td>
         <td th:text="${student.studyFormat}"></td>
         <td>
-            <a th:href="@{/students/update/{studentId}(studentId=${student.getStudentId()})}">
+            <a th:href="@{/api/students/update/{studentId}(studentId=${student.getStudentId()})}">
                 <input type="submit" value="update" style="height: 40px; width: 80px; background-color:blue; border-radius: 7px"/>
             </a>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/students/{studentId}/{companyId}/delete(studentId=${student.studentId},companyId=${companyId})}">
+            <form th:method="DELETE" th:action="@{'/api/students/' + ${companyId} + '/delete/' + ${student.studentId}}">
                 <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e; border-radius: 7px"/></form>
         </td>
         <td>
+<!--            <form th:method="POST"-->
+<!--                  th:action="@{'/api/students/' + ${course.getCourseId()} + '/assign/' + ${student.getStudentId()}}">-->
+<!--                <select class="form-select form-select-sm" aria-label=".form-select-sm example">-->
+<!--                    <option th:each="course : ${courses}"-->
+<!--                            th:value="${course.courseId}"-->
+<!--                            th:text="${course.course_name}"></option>-->
+<!--                </select>-->
+<!--                <input type="submit" value="submit" style="height: 25px; width: 70px; background: darkseagreen; border-radius: 5px"/>-->
+<!--            </form>-->
             <form th:method="POST"
-                  th:action="@{/students/{companyId}/{studentId}/assign(studentId=${student.getStudentId()},companyId=${companyId})}">
+                  th:action="@{/api/students/{companyId}/{studentId}/assign(studentId=${student.getStudentId()},companyId=${companyId})}">
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" th:object="${course}" th:field="${course.courseId}">
                     <option th:each="course : ${courses}"
                             th:value="${course.courseId}"
@@ -94,10 +103,10 @@
     </tr>
     </tbody>
 </table>
-<a class="button" th:href="@{/students/{companyId}/new(companyId=${companyId})}">
+<a class="button" th:href="@{/api/students/new/{companyId}(companyId=${companyId})}">
     <button type="button" class="btn btn-primary btn-sm">Add Student</button>
 </a>
-<a  class="button" th:href="@{/companies/allCompanies}">
+<a  class="button" th:href="@{/api/companies}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
 <button type="button" class="btn btn-primary btn-sm">

@@ -81,14 +81,14 @@
                 <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:darkorange;"/>
             </form>
         </td>
-        <td><a th:href="@{/courses/all/{companyId}(companyId=${company.getCompanyId()})}">
+        <td><a th:href="@{'/api/courses/' + ${company.getCompanyId()}}">
             <input type="submit" value="course" style="height: 40px; width: 80px;background: darkcyan;"/>
         </a>
         </td>
-        <td><a th:href="@{/instructors/all/{companyId}(companyId=${company.getCompanyId()})}">
+        <td><a th:href="@{/api/instructors/{companyId}(companyId=${company.getCompanyId()})}">
             <input type="submit" value="instructor" style="height: 40px;width: 110px;background: lightcoral">
         </a></td>
-        <td><a th:href="@{/students/all/{companyId}(companyId=${company.getCompanyId()})}">
+        <td><a th:href="@{/api/students/{companyId}(companyId=${company.getCompanyId()})}">
             <input type="submit" value="student" style="height: 40px;width: 80px;background: mediumaquamarine">
         </a>
         </td>
@@ -97,7 +97,7 @@
 </table>
 <br><br><br><br>
 <input class="add" style=" display: block; margin:auto; font-size:30px;" type="button" value="Add company"
-       onclick="window.location.href = 'new'">
+       onclick="window.location.href = '/api/companies/new'">
 
 <form th:action="@{/logout }" method="post" style="text-align: center">
 </form>

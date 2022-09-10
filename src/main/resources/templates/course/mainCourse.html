@@ -66,7 +66,7 @@
     </tr>
     </thead>
     <tbody class="table-success">
-    <tr th:each="courses:${allCourses}">
+    <tr th:each="course:${allCourses}">
         <td scope="row" th:text="${course.courseId}"></td>
         <td th:text="${course.course_name}"></td>
         <td th:text="${course.dateOfStart}"></td>
@@ -75,13 +75,13 @@
         <td th:text="${course.description}"></td>
         <td th:text="${course.getCompany().getCompanyName()}"></td>
         <td>
-            <a th:href="@{/courses/update/{courseId}(courseId=${course.getCourseId()})}">
+            <a th:href="@{/api/courses/update/{courseId}(courseId=${course.getCourseId()})}">
                 <input type="submit" value="update" style="height: 40px; width: 80px; background-color:blue; border-radius: 7px"/>
             </a>
         </td>
         <td>
             <form th:method="DELETE"
-                  th:action="@{/courses/{id}/{companyId}/delete(id=${course.getCourseId()},companyId=${companyId})}">
+                  th:action="@{'/api/courses/' + ${companyId} + '/delete/' + ${course.getCourseId()}}">
                 <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e; border-radius: 7px"/>
             </form>
         </td>
@@ -91,7 +91,7 @@
 
         <td>
             <form th:method="POST"
-                  th:action="@{/courses/{companyId}/{courseId}/saveAssign(courseId=${course.getCourseId()}, companyId=${companyId})}">
+                  th:action="@{/api/courses/{companyId}/{courseId}/saveAssign(courseId=${course.getCourseId()}, companyId=${companyId})}">
                 <select name="instructor" class="form-select form-select-sm"  aria-label=".form-select-sm example" th:object="${inst}" th:field="*{instructorId}">
                     <option th:each="instructor : ${instructors}"
                             th:value="${instructor.instructorId}"
@@ -104,10 +104,10 @@
     </tr>
     </tbody>
 </table>
-<a  class="button" th:href="@{/courses/{id}/new(id=${companyId})}">
+<a  class="button" th:href="@{'/api/courses/new/' + ${companyId}}">
     <button type="button" class="btn btn-primary btn-sm">Add Course</button>
 </a>
-<a  class="button" th:href="@{/companies/all}">
+<a  class="button" th:href="@{/api/companies}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
 

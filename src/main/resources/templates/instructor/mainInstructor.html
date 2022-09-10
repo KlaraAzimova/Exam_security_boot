@@ -76,13 +76,18 @@
         <td th:text="${instructor.specialization}"></td>
         <td th:text="${instructor.getCompany().getCompanyName()}"></td>
         <td>
-            <a th:href="@{/instructors/update/{instructorId}(instructorId=${instructor.getInstructorId()})}">
+            <a th:href="@{/api/instructors/update/{instructorId}(instructorId=${instructor.getInstructorId()})}">
                 <input type="submit" value="update" style="height: 40px; width: 80px; background-color:blue; border-radius: 7px"/>
             </a>
         </td>
         <td>
+            <a th:href="@{/api/instructors/findCoursesByInstructorId/{instructorId}(instructorId=${instructor.getInstructorId()})}">
+                <input type="submit" value="courses" style="height: 40px; width: 80px; background-color:blue; border-radius: 7px"/>
+            </a>
+        </td>
+        <td>
             <form th:method="DELETE"
-                  th:action="@{/instructors/{id}/{companyId}/delete(id=${instructor.getInstructorId()},companyId=${companyId})}">
+                  th:action="@{'/api/instructors/' + ${companyId} + '/delete/' + ${instructor.getInstructorId()}}">
                 <input type="submit" value="delete" style="height: 40px; width: 80px; background-color:#abd21e; border-radius: 7px"/>
             </form>
         </td>
@@ -90,10 +95,10 @@
     </tr>
     </tbody>
 </table>
-<a  class="button" th:href="@{/instructors/{id}/new(id=${companyId})}">
+<a  class="button" th:href="@{/api/instructors/new/{id}(id=${companyId})}">
     <button type="button" class="btn btn-primary btn-sm">Add Instructor</button>
 </a>
-<a  class="button" th:href="@{/companies/all}">
+<a  class="button" th:href="@{/api/companies}">
     <button type="button" class="btn btn-primary btn-sm">Go back</button>
 </a>
 

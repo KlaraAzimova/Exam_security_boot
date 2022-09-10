@@ -9,45 +9,43 @@ import peaksoft.service.CourseService;
 import peaksoft.service.InstructorService;
 
 @Controller
-@RequestMapping("/instructors")
+@RequestMapping("/api/instructors")
 public class InstructorController {
+
     private final InstructorService instructorService;
 
-    private final CourseService courseService;
-
     @Autowired
-    public InstructorController(InstructorService instructorService, CourseService courseService) {
+    public InstructorController(InstructorService instructorService) {
         this.instructorService = instructorService;
-        this.courseService = courseService;
     }
 
-    @GetMapping("/all/{companyId}")
-    private String getAllInstructors(@PathVariable("companyId") Long id, Model model) {
-        model.addAttribute("allInstructors", instructorService.getInstructorByCompanyId(id));
-        model.addAttribute("companyId", id);
-        model.addAttribute("instructors", courseService.getCourseByCompanyId(id));
+    @GetMapping("/{companyId}")
+    private String getAllInstructors(@PathVariable Long companyId, Model model) {
+        model.addAttribute("allInstructors", instructorService.getInstructorByCompanyId(companyId));
+        model.addAttribute("companyId", companyId);
         return "instructor/mainInstructor";
     }
 
+    @GetMapping("/findCoursesByInstructorId/{instructorId}")
+    private String getAllCourses(@PathVariable Long instructorId, Model model) {
+        Instructor instructor = instructorService.getById(instructorId);
+        model.addAttribute("allCourses", instructorService.findCoursesByInstructorId(instructorId));
+        model.addAttribute("companyId", instructor.getCompany());
+        return "/course/mainCourse";
+    }
 
-    @GetMapping("{companyId}/new")
-    private String newInstructor(@PathVariable("companyId") Long id, Model model) {
+    @GetMapping("/new/{companyId}")
+    private String newInstructor(@PathVariable Long companyId, Model model) {
         model.addAttribute("newInstructor", new Instructor());
-        model.addAttribute("companyId", id);
+        model.addAttribute("companyId", companyId);
         return "instructor/newInstructor";
     }
 
-    @PostMapping("{companyId}/save")
-    private String saveInstructor(@PathVariable("companyId") Long id,
+    @PostMapping("/save/{companyId}")
+    private String saveInstructor(@PathVariable Long companyId,
                                   @ModelAttribute("newInstructor") Instructor instructor) {
-        instructorService.addInstructor(id, instructor);
-        return "redirect:/instructors/all/ " + id;
-    }
-
-    @GetMapping("/find/{id}")
-    private String getInstructorById(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("id", instructorService.getById(id));
-        return "instructor/mainInstructor";
+        instructorService.addInstructor(companyId, instructor);
+        return "redirect:/api/instructors/" + companyId;
     }
 
     @GetMapping("/update/{instructorId}")
@@ -58,18 +56,18 @@ public class InstructorController {
         return "instructor/updateInstructor";
     }
 
-    @PostMapping("/{companyId}/{instructorId}/update")
-    private String saveUpdate(@PathVariable("companyId") Long companyId,
-                              @PathVariable("instructorId") Long id,
+    @PostMapping("/update/{companyId}")
+    private String saveUpdate(@PathVariable Long companyId,
                               @ModelAttribute("instructor") Instructor instructor) {
-        instructorService.updateInstructor(id, instructor);
-        return "redirect:/instructors/all/" + companyId;
+        instructorService.updateInstructor(companyId, instructor);
+        return "redirect:/api/instructors/" + companyId;
     }
 
-    @RequestMapping("/{id}/{instructorId}/delete")
-    private String deleteInstructor(@PathVariable("id") Long id, @PathVariable("instructorId") Long instructorId) {
+    @RequestMapping("/{companyId}/delete/{instructorId}")
+    private String deleteInstructor(@PathVariable Long companyId,
+                                    @PathVariable Long instructorId) {
         instructorService.deleteInstructor(instructorId);
-        return "redirect:/instructors/all/ " + id;
+        return "redirect:/api/instructors/" + companyId;
     }
 
 }

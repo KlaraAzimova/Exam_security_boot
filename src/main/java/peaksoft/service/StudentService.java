@@ -24,11 +24,6 @@ public class StudentService {
         this.courseRepository = courseRepository;
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
-    }
-
-
     public void addStudents(Long id, Student student) {
         Company company = companyRepository.findById(id).get();
         company.addStudent(student);
@@ -49,16 +44,8 @@ public class StudentService {
         return studentRepository.findStudentsByCompany_CompanyId(id);
     }
 
-    public void updateStudent(Long id, Student student) {
-        Student student1 = studentRepository.findById(id).get();
-        student1.setStudentId(student.getStudentId());
-        student1.setFirstName(student.getFirstName());
-        student1.setLastName(student.getLastName());
-        student1.setPhoneNumber(student.getPhoneNumber());
-        student1.setEmail(student.getEmail());
-        student1.setStudyFormat(student.getStudyFormat());
-        studentRepository.save(student1);
-
+    public void updateStudent(Long companyId, Student student) {
+        addStudents(companyId, student);
     }
 
     public void deleteStudent(Long id) {
